@@ -2,6 +2,7 @@ package gamepackage;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.io.IOException;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -10,6 +11,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+
+import gameServer.Connector;
 
 
 public class Client {
@@ -21,7 +24,7 @@ public class Client {
 	JCheckBox p2,p3,p4,p6;
 	ButtonGroup players;
 	
-	Client() {
+	public Client() {
 		
 		clientWindow = new JFrame("Chinese checkers");
 		buttons = new JPanel();
@@ -68,15 +71,19 @@ public class Client {
 	
 	public static void main(String[] args) {
 
-		Client client = new Client(); 
-
-				Board board = new Board(2); 
-				//Board board = new Board(3); //to tez dziala juz ;)
+				int numberOfPlayers = 0;
+				Connector connector = new Connector();
+				connector.out.println("CONNECT");
+				try {
+					numberOfPlayers = Integer.parseInt(connector.in.readLine());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				Client client = new Client(); 
+				Board board = new Board(numberOfPlayers);
+				connector.setBoardImage(client.boardImage);
 				client.boardImage.setBoard(board);
-			}
-
-		}
-
-	
-
-
+				client.boardImage.setConnector(connector);
+				connector.play();
+				}
+	}

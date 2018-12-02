@@ -6,12 +6,10 @@ import java.util.ArrayList;
 public class Board {
 	
 	public static int numberOfCircles = 121;
-	
 	private int numberOfPlayers;
 	private ArrayList<ColorCircle> circles;
 	
 	Board( int numberOfPlayers ) {
-		
 		this.numberOfPlayers = numberOfPlayers;
 		this.circles = new ArrayList<ColorCircle> (numberOfCircles);
 		

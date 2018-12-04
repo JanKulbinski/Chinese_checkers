@@ -1,5 +1,6 @@
 package gameServer;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,7 +13,9 @@ class Player extends Thread
 	PrintWriter out;
 	BufferedReader in;
 	Game game;
-	Player(Socket socket, Game game)
+	private Color playerColor;
+	
+	Player(Socket socket, Game game, int playerId)
 	{
 		this.game = game;
 		client=socket;
@@ -20,9 +23,17 @@ class Player extends Thread
 			out = new PrintWriter(client.getOutputStream(), true);
 			in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 		} catch (IOException e) {
-			System.out.println("Nie mo¿na naziwazac komunikacji");
+			System.out.println("Nie mozna nawiazac komunikacji");
 			System.exit(0);
 		}
+		playerId++;
+		if(playerId == 1) playerColor = Color.RED;
+		else if(playerId == 2) playerColor = Color.GREEN;
+		else if(playerId == 3) playerColor = Color.BLUE;
+		else if(playerId == 4) playerColor = Color.CYAN;
+		else if(playerId == 5) playerColor = Color.PINK;
+		else if(playerId == 6) playerColor = Color.YELLOW;
+
 	}
 	public void run() {
 		String line;
@@ -31,14 +42,20 @@ class Player extends Thread
 				line=in.readLine();
 				if(line.equals("CONNECT")) {
 					out.println(game.getNumberOfPlayers());
-				} else {
-					for(int i=0;i<game.getPlayers().length;i++) {
-						game.getPlayers()[i].out.println(line);
-					}
+					out.println(Integer.toString(playerColor.getRGB()));
+				} else {	
+						if ( game.checkMoveProperiety(line,playerColor) ) {
+							for(int i=0;i<game.getPlayers().length;i++) {
+								game.getPlayers()[i].out.println(line);
+							}
+						}
+						else {
+							this.out.println("INCORRECT !");
+						}
 				}
 			}
 		} catch (IOException e) {
-			System.out.append("Nie mo¿na przeczytac lini");
+			System.out.append("Nie mozna przeczytac lini");
 			System.exit(0);
 		}
 	}

@@ -8,10 +8,11 @@ public class Server
 {
 	public static void main(String[] args)
 	{
+		
 		int numberOfPlayers = 0;
 		ServerSocket server;
 		Scanner in = new Scanner(System.in);
-		System.out.println("Podaj liczbê graczy:");
+		System.out.println("Podaj liczbe graczy:");
 		while(true)
 		{
 			String choice = in.nextLine();
@@ -28,7 +29,7 @@ public class Server
 				numberOfPlayers = 6;
 				break;
 			} else {
-				System.out.println("B³êdny wybór");
+				System.out.println("Bledny wybor");
 			}	
 		}		
 		Game g=new Game(numberOfPlayers);
@@ -37,11 +38,11 @@ public class Server
 			server=new ServerSocket(6666);
 			System.out.println("Serwer utworzony");
 			for(int i=0;i<numberOfPlayers;i++) {
-				players[i] = new Player(server.accept(),g);
+				players[i] = new Player(server.accept(),g,i);
 				players[i].start();
 			}
 		} catch (IOException e) {
-			System.out.println("Nie mo¿na utworzyc serwera");
+			System.out.println("Nie mozna utworzyc serwera");
 			System.exit(0);
 		}
 		g.setPlayers(players);

@@ -7,14 +7,19 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import javax.swing.JTextArea;
+
+import gamepackage.Board;
 import gamepackage.BoardImage;
 
 public class Connector 
 {
+	JTextArea communicator;
 	public BufferedReader in;
 	public PrintWriter out;
 	public Socket s;
-	private BoardImage boardImage;
+	private Board board;
+	
 	public Connector() {
 		try {
 			s=new Socket("localhost",6666);
@@ -26,19 +31,26 @@ public class Connector
 			e.printStackTrace();
 		}
 	}
-	public void setBoardImage(BoardImage boardImage) {
-		this.boardImage = boardImage;
+	public void setBoardImage(Board board, JTextArea communicator) {
+		this.board = board;
+		this.communicator = communicator;
 	}
 	public void play() {
 		String line;
 		try {
 			while(true) {
 				line=in.readLine();
-				boardImage.opponentMove(line);
+				if(line.equals("INCORRECT !")) {
+					communicator.setText(line);
+				}
+				else {
+					board.opponentMove(line);
+					communicator.setText(" ");
+				}
 			}
 			
 		} catch (IOException e) {
-			System.out.println("Nie mo¿na przeczytac lini");
+			System.out.println("Nie mozna przeczytac lini");
 			System.exit(0);
 		}
 	}

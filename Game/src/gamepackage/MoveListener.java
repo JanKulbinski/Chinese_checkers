@@ -43,7 +43,7 @@ public class MoveListener implements MouseListener {
 			if(circles.get(i).contains(arg0.getX(), arg0.getY())) {
 				
 				if(clickedCircle != -1 && clickedCircle != i && circles.get(i).getColor() == Color.WHITE) {
-					boardImage.move(clickedCircle, i, circles.get(clickedCircle).getColor());
+					boardImage.getBoard().move(clickedCircle, i, circles.get(clickedCircle).getColor());
 					break;
 				}	
 			}

@@ -3,15 +3,20 @@ package gamepackage;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import gameServer.Connector;
+
 public class Board {
 	
 	public static int numberOfCircles = 121;
 	private int numberOfPlayers;
 	private ArrayList<ColorCircle> circles;
+	private Connector connector;
+	private BoardImage boardImage;
 	
-	Board( int numberOfPlayers ) {
+	public Board( int numberOfPlayers, BoardImage boardImage ) {
 		this.numberOfPlayers = numberOfPlayers;
 		this.circles = new ArrayList<ColorCircle> (numberOfCircles);
+		this.boardImage = boardImage;
 		
 		createBoard();
 		
@@ -20,16 +25,16 @@ public class Board {
 			int[] players = {10,11,12,13,23,24,25,35,36,46};
 			int[] players2 = {19,20,21,22,32,33,34,44,45,55};
 			int[] players3 = {0,1,2,3,4,5,6,7,8,9};
-			createPlayer(players,Color.BLUE);
-			createPlayer(players2,Color.RED);
+			createPlayer(players,Color.RED);
+			createPlayer(players2,Color.BLUE);
 			createPlayer(players3,Color.WHITE);
 		}
 		
-		if(numberOfPlayers == 4) { // to dorobie potem
+		if(numberOfPlayers == 4) { // to dorobie potem 4.cyan 
 			int[] players = {2,3};
 		}
 		
-		if(numberOfPlayers == 6) { // to tez
+		if(numberOfPlayers == 6) { // to tez 5.pink 6.yellow
 			int[] players = {2,3};
 		}
 		
@@ -78,6 +83,22 @@ public class Board {
 			
 	}
 	
+	public void move(int c1, int c2, Color color) {
+
+		connector.out.println(c1+" "+c2+" "+color.getRed()+" "+color.getGreen()+" "+color.getBlue());
+	}
+	
+	public void opponentMove(String move) {
+		String[] words = move.split(" ");
+		Color color = new Color(Integer.parseInt(words[2]),Integer.parseInt(words[3]),Integer.parseInt(words[4]));
+		getCircles().get(Integer.parseInt(words[0])).setColor(Color.WHITE);
+		getCircles().get(Integer.parseInt(words[1])).setColor(color);
+		boardImage.repaint();
+	}
+	
+	public void setConnector(Connector c) {
+		this.connector = c;
+	}
 	public ArrayList<ColorCircle> getCircles() {
 		return circles;
 	}

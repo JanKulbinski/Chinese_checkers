@@ -94,6 +94,7 @@ public class Board {
 		getCircles().get(Integer.parseInt(words[0])).setColor(Color.WHITE);
 		getCircles().get(Integer.parseInt(words[1])).setColor(color);
 		boardImage.repaint();
+		
 	}
 	
 	public void setConnector(Connector c) {

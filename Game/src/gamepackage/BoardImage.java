@@ -35,6 +35,7 @@ public class BoardImage extends JPanel {
 	
 	@Override
 	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 		ArrayList<ColorCircle> circles = board.getCircles();
 		for ( ColorCircle c : circles ) {
 			g.setColor(c.getColor());

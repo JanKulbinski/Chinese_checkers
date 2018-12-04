@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.Scanner;
 
+import gamepackage.Client;
+
 public class Server 
 {
 	public static void main(String[] args)
@@ -15,7 +17,10 @@ public class Server
 		System.out.println("Podaj liczbe graczy:");
 		while(true)
 		{
-			String choice = in.nextLine();
+			numberOfPlayers = 2;
+			break;
+			//zakomentowane tylko do testowania
+			/*String choice = in.nextLine();
 			if(choice.equals("2")) {
 				numberOfPlayers = 2;
 				break;
@@ -30,7 +35,7 @@ public class Server
 				break;
 			} else {
 				System.out.println("Bledny wybor");
-			}	
+			}	*/
 		}		
 		Game g=new Game(numberOfPlayers);
 		Player[] players = new Player[numberOfPlayers];

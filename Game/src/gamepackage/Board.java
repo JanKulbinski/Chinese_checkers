@@ -18,26 +18,38 @@ public class Board {
 		this.circles = new ArrayList<ColorCircle> (numberOfCircles);
 		this.boardImage = boardImage;
 		
+		//int[] players,players2,players3,players4,players5;
+		
 		createBoard();
-		
-		if(numberOfPlayers == 3) {
+		if(numberOfPlayers != 2) {
+			int[] player = {0,1,2,3,4,5,6,7,8,9};
+			int[] player1 = {10,11,12,13,23,24,25,35,36,46};
+			int[] player2 = {19,20,21,22,32,33,34,44,45,55};
+			int[] player3 = {65,75,76,86,87,88,98,99,100,101};
+			int[] player4 = {74,84,85,95,96,97,107,108,109,110};
+			int[] player5 = {111,112,113,114,115,116,117,118,119,120};
 			
-			int[] players = {10,11,12,13,23,24,25,35,36,46};
-			int[] players2 = {19,20,21,22,32,33,34,44,45,55};
-			int[] players3 = {0,1,2,3,4,5,6,7,8,9};
-			createPlayer(players,Color.RED);
-			createPlayer(players2,Color.BLUE);
-			createPlayer(players3,Color.WHITE);
+			if(numberOfPlayers == 3) {
+				createPlayer(player3,Color.GREEN);
+				createPlayer(player4,Color.BLUE);
+				createPlayer(player5,Color.WHITE);
+			} else if(numberOfPlayers == 4) { 
+				createPlayer(player,Color.WHITE);
+				createPlayer(player1,Color.RED);
+				createPlayer(player2,Color.GREEN);
+				createPlayer(player3,Color.BLUE);
+				createPlayer(player4,Color.CYAN);
+				createPlayer(player5,Color.WHITE);
+			} else if(numberOfPlayers == 6) { 
+				createPlayer(player,Color.RED);
+				createPlayer(player1,Color.GREEN);
+				createPlayer(player2,Color.BLUE);
+				createPlayer(player3,Color.CYAN);
+				createPlayer(player4,Color.PINK);
+				createPlayer(player5,Color.YELLOW);
+				
+			}
 		}
-		
-		if(numberOfPlayers == 4) { // to dorobie potem 4.cyan 
-			int[] players = {2,3};
-		}
-		
-		if(numberOfPlayers == 6) { // to tez 5.pink 6.yellow
-			int[] players = {2,3};
-		}
-		
 	}
 	
 	/*
@@ -64,6 +76,7 @@ public class Board {
 		for( int i = 13; i < 17 ; i++) {
 			createRaw(start+((ColorCircle.width/2)*(i-13)),i,17-i,Color.GREEN);
 		}
+
 	}
 	
 	/*

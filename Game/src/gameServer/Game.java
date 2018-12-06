@@ -37,19 +37,6 @@ class Game
 	
 	public boolean checkMoveProperiety(String line, Color playerColor) {
 	
-		/*stare sprawdzanie ruchu do usuniecia ,jak Twoje dziala
-		 * String[] words = line.split(" ");
-		Color color = new Color(Integer.parseInt(words[2]),Integer.parseInt(words[3]),Integer.parseInt(words[4]));
-		ArrayList<ColorCircle> circles = board.getCircles();
-		
-
-		
-		float x = circleEnd.x-(2*ColorCircle.width);
-		float y = circleEnd.y-(2*ColorCircle.height);
-		Ellipse2D.Float bigCircle = new Ellipse2D.Float(x,y,2*ColorCircle.width,3*ColorCircle.height);
-		float circleEndX = (float) circleEnd.getCenterX();
-		float circleEndY = (float) circleEnd.getCenterY();
-		*/
 		String[] words = line.split(" ");
 		Color color = new Color(Integer.parseInt(words[2]),Integer.parseInt(words[3]),Integer.parseInt(words[4]));
 		ArrayList<ColorCircle> circles = board.getCircles();

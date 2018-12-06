@@ -57,7 +57,7 @@ class Player extends Thread
 					out.println(Integer.toString(playerId));
 					
 				} else if  ( line.equals("END TURN") ) {
-					
+					game.reset();
 					for(int i=0;i<game.getPlayers().length;i++) {
 						game.getPlayers()[i].out.println("TURN");
 						game.getPlayers()[i].out.println((playerId+1)%game.getNumberOfPlayers());

@@ -38,11 +38,17 @@ public class BoardImage extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+	    Graphics2D g2 = (Graphics2D)g;
+	    RenderingHints rh = new RenderingHints(
+	             RenderingHints.KEY_ANTIALIASING,
+	             RenderingHints.VALUE_ANTIALIAS_ON);
 	    
+	    g2.setRenderingHints(rh);
+	   
 		ArrayList<ColorCircle> circles = board.getCircles();
 		for ( ColorCircle c : circles ) {
-			g.setColor(c.getColor());
-			g.fillOval((int)c.x,(int)c.y, (int)ColorCircle.width, (int)ColorCircle.height);
+			g2.setColor(c.getColor());
+			g2.fillOval((int)c.x,(int)c.y, (int)ColorCircle.width, (int)ColorCircle.height);
 		}
 	}
 	

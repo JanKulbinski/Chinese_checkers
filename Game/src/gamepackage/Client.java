@@ -25,8 +25,6 @@ public class Client {
 	JPanel buttons,filler,filler2;
 	JTextArea communicator;
 	BoardImage boardImage;
-	JCheckBox p2,p3,p4,p6;
-	ButtonGroup players;
 	JButton endTurn;
 	Board board;
 	

@@ -14,6 +14,8 @@ class Game
 	private Player[] players;
 	private int numberOfPlayers;
 	private Board board;
+	private boolean endOfMoves;
+	private ColorCircle jumpingCircle;
 	
 	public Game(int numberOfPlayers) {
 		this.numberOfPlayers = numberOfPlayers;
@@ -42,14 +44,43 @@ class Game
 		ArrayList<ColorCircle> circles = board.getCircles();
 		ColorCircle circleStart = circles.get(Integer.parseInt(words[0]));
 		ColorCircle circleEnd = circles.get(Integer.parseInt(words[1]));
-		if(!playerColor.equals(color)) {
+		if(!playerColor.equals(color) || endOfMoves) {
 			return false;
 		}
 		else {
-			circleStart.setColor(Color.WHITE);
-			circleEnd.setColor(color);
-			return true;
+			double distance = Math.sqrt((Math.pow(circleStart.getCenterX()-circleEnd.getCenterX(), 2)) + Math.pow(circleStart.getCenterY()-circleEnd.getCenterY(), 2));
+			if(distance < 45) {
+				if(jumpingCircle != null) {
+					return false;
+				}
+				endOfMoves = true;
+				circleStart.setColor(Color.WHITE);
+				circleEnd.setColor(color);
+				return true;
+			} else if ( distance > 75) {
+				return false;
+			} else {
+				if(jumpingCircle != null && jumpingCircle != circleStart) {
+					return false;
+				}
+				double x = (circleStart.getCenterX()+circleEnd.getCenterX())/2;
+				double y = (circleStart.getCenterY()+circleEnd.getCenterY())/2;
+				for(int i=0;i<circles.size();i++) {
+					if(circles.get(i).getCenterX() == x && circles.get(i).getCenterY() == y && circles.get(i).getColor() != Color.WHITE) {
+						circleStart.setColor(Color.WHITE);
+						circleEnd.setColor(color);	
+						jumpingCircle = circleEnd;
+						return true;
+					}
+				}
+				return false;
+			}
 		}
+	}
+	
+	public void reset() {
+		endOfMoves = false;
+		jumpingCircle = null;
 	}
 
 	

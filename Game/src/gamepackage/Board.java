@@ -12,13 +12,16 @@ public class Board {
 	private ArrayList<ColorCircle> circles;
 	private Connector connector;
 	private BoardImage boardImage;
+	private Boolean myTurn; 
+	private int playerId;
+	public static String[] playersColors = {"RED","GREEN","BLUE","CYAN","PINK","YELLOW"};
 	
 	public Board( int numberOfPlayers, BoardImage boardImage ) {
 		this.numberOfPlayers = numberOfPlayers;
 		this.circles = new ArrayList<ColorCircle> (numberOfCircles);
 		this.boardImage = boardImage;
+		myTurn = false;
 		
-		//int[] players,players2,players3,players4,players5;
 		
 		createBoard();
 		if(numberOfPlayers != 2) {
@@ -30,23 +33,23 @@ public class Board {
 			int[] player5 = {111,112,113,114,115,116,117,118,119,120};
 			
 			if(numberOfPlayers == 3) {
-				createPlayer(player3,Color.GREEN);
-				createPlayer(player4,Color.BLUE);
+				createPlayer(player3,Color.BLUE);
+				createPlayer(player4,Color.GREEN);
 				createPlayer(player5,Color.WHITE);
 			} else if(numberOfPlayers == 4) { 
 				createPlayer(player,Color.WHITE);
 				createPlayer(player1,Color.RED);
 				createPlayer(player2,Color.GREEN);
-				createPlayer(player3,Color.BLUE);
-				createPlayer(player4,Color.CYAN);
+				createPlayer(player4,Color.BLUE);
+				createPlayer(player3,Color.CYAN);
 				createPlayer(player5,Color.WHITE);
 			} else if(numberOfPlayers == 6) { 
 				createPlayer(player,Color.RED);
-				createPlayer(player1,Color.GREEN);
-				createPlayer(player2,Color.BLUE);
-				createPlayer(player3,Color.CYAN);
-				createPlayer(player4,Color.PINK);
-				createPlayer(player5,Color.YELLOW);
+				createPlayer(player2,Color.GREEN);
+				createPlayer(player4,Color.BLUE);
+				createPlayer(player5,Color.CYAN);
+				createPlayer(player3,Color.PINK);
+				createPlayer(player1,Color.YELLOW);
 				
 			}
 		}
@@ -97,23 +100,45 @@ public class Board {
 	}
 	
 	public void move(int c1, int c2, Color color) {
-
+		if(myTurn) {
 		connector.out.println(c1+" "+c2+" "+color.getRed()+" "+color.getGreen()+" "+color.getBlue());
+		}
 	}
 	
 	public void opponentMove(String move) {
 		String[] words = move.split(" ");
+				
 		Color color = new Color(Integer.parseInt(words[2]),Integer.parseInt(words[3]),Integer.parseInt(words[4]));
 		getCircles().get(Integer.parseInt(words[0])).setColor(Color.WHITE);
 		getCircles().get(Integer.parseInt(words[1])).setColor(color);
-		boardImage.repaint();
-		
+		boardImage.repaint();		
 	}
 	
-	public void setConnector(Connector c) {
+	public void setConnector( Connector c ) {
 		this.connector = c;
 	}
+	public void setPlayerId(int id) {
+		this.playerId = id;
+	}
+	
+	public void endTurn() {
+		this.myTurn = false;
+		connector.sendMessageToServer("END TURN");
+	}
+	
+	public void myTurn() {
+		this.myTurn = true;
+	}
+	
 	public ArrayList<ColorCircle> getCircles() {
 		return circles;
+	}
+
+	public int myId() {
+		return playerId;
+	}
+	
+	public String getColor(int id) {
+		return Board.playersColors[id];
 	}
 }

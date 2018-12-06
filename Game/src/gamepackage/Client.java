@@ -28,6 +28,7 @@ public class Client {
 	JCheckBox p2,p3,p4,p6;
 	ButtonGroup players;
 	JButton endTurn;
+	Board board;
 	
 	public Client() {
 		
@@ -39,6 +40,9 @@ public class Client {
 		boardImage  = new BoardImage();	
 		
 		endTurn = new JButton("END YOUR TURN");
+		endTurn.addActionListener(e -> {
+			board.endTurn();
+		});
 		communicator.setFont(new Font("Segoe Script",Font.BOLD,15));
 		communicator.setText("WELCOME!");
 		communicator.setEditable(false);
@@ -65,10 +69,12 @@ public class Client {
 		communicator.setBackground(color);
 		filler.setBackground(color);
 		filler2.setBackground(color);
+		
 	}
 	
 	public static void main(String[] args)  {
-
+				
+				int id = 0;
 				int numberOfPlayers = 0;
 			    Color color = Color.WHITE;
 				Connector connector = new Connector();
@@ -78,16 +84,18 @@ public class Client {
 				try {
 					numberOfPlayers = Integer.parseInt(connector.in.readLine());
 					color = new Color(Integer.parseInt(connector.in.readLine()));
+					id = Integer.parseInt(connector.in.readLine());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				
 				Client client = new Client(); 
-				Board board = new Board(numberOfPlayers,client.boardImage);			
-				board.setConnector(connector);
+				client.board = new Board(numberOfPlayers,client.boardImage);		
+				client.board.setConnector(connector);
+				client.board.setPlayerId(id);
 				
-				connector.setBoardImage(board,client.communicator);
-				client.boardImage.setBoard(board);
+				connector.setBoardImage(client.board,client.communicator);
+				client.boardImage.setBoard(client.board);
 				client.setMyColor(color);
 				client.boardImage.setConnector(connector);			
 				

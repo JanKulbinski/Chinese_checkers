@@ -40,12 +40,21 @@ public class Connector
 		try {
 			while(true) {
 				line=in.readLine();
+				
 				if(line.equals("INCORRECT !")) {
 					communicator.setText(line);
-				}
-				else {
+				
+				} else if(line.equals("TURN") ) {
+						int id = Integer.parseInt(in.readLine());
+						
+						if(id == board.myId()) {
+							communicator.setText("It's your turn");
+							board.myTurn();
+						}
+						
+				} else {
 					board.opponentMove(line);
-					communicator.setText(" ");
+					communicator.setText("");
 				}
 			}
 			
@@ -53,6 +62,13 @@ public class Connector
 			System.out.println("Nie mozna przeczytac lini");
 			System.exit(0);
 		}
+	}
+	
+	public void sendMessageToServer(String text) {
+		out.println(text);
+	}
+	public void setTextOnCommunicator(String text) {
+		communicator.setText(text);
 	}
 	
 }

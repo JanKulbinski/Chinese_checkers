@@ -9,20 +9,16 @@ import states.StateController;
 public class Board {
 	
 	public static int numberOfCircles = 121;
-	private int numberOfPlayers;
 	private ArrayList<ColorCircle> circles;
 	private Connector connector;
 	private BoardImage boardImage;
-	private Boolean myTurn; 
+	private boolean myTurn; 
 	private int playerId;
-	public static String[] playersColors = {"RED","GREEN","BLUE","CYAN","PINK","YELLOW"};
 	
 	public Board( int numberOfPlayers, BoardImage boardImage ) {
-		this.numberOfPlayers = numberOfPlayers;
 		this.circles = new ArrayList<ColorCircle> (numberOfCircles);
 		this.boardImage = boardImage;
 		myTurn = false;
-		
 		
 		createBoard();
 		if(numberOfPlayers != 2) {
@@ -83,8 +79,7 @@ public class Board {
 	}
 	
 	public void opponentMove(String move) {
-		String[] words = move.split(" ");
-				
+		String[] words = move.split(" ");	
 		Color color = new Color(Integer.parseInt(words[2]),Integer.parseInt(words[3]),Integer.parseInt(words[4]));
 		getCircles().get(Integer.parseInt(words[0])).setColor(Color.WHITE);
 		getCircles().get(Integer.parseInt(words[1])).setColor(color);
@@ -99,8 +94,10 @@ public class Board {
 	}
 	
 	public void endTurn() {
-		this.myTurn = false;
-		connector.sendMessageToServer("END TURN");
+		if(myTurn) {
+			this.myTurn = false;
+			connector.sendMessageToServer("END TURN");
+		}
 	}
 	
 	public void myTurn() {
@@ -113,9 +110,5 @@ public class Board {
 
 	public int myId() {
 		return playerId;
-	}
-	
-	public String getColor(int id) {
-		return Board.playersColors[id];
 	}
 }

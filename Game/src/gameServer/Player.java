@@ -11,10 +11,10 @@ import states.StateController;
 
 class Player extends Thread
 {
-	Socket client;
-	PrintWriter out;
-	BufferedReader in;
-	Game game;
+	private Socket client;
+	private PrintWriter out;
+	private BufferedReader in;
+	private Game game;
 	private int playerId;
 	private Color playerColor;
 	private int destination[] = new int[10];
@@ -67,12 +67,12 @@ class Player extends Thread
 					
 				} else if  ( line.equals("END TURN") ) {
 					game.reset();
+					int nextPlayer = (playerId+1)%game.getNumberOfPlayers();
+					while(game.getPlayers()[nextPlayer].hasWon) {
+						nextPlayer = (nextPlayer+1)%game.getNumberOfPlayers();
+					}
 					for(int i=0;i<game.getPlayers().length;i++) {
 						game.getPlayers()[i].out.println("TURN");
-						int nextPlayer = (playerId+1)%game.getNumberOfPlayers();
-						while(game.getPlayers()[nextPlayer].hasWon) {
-							nextPlayer = (nextPlayer+1)%game.getNumberOfPlayers();
-						}
 						game.getPlayers()[i].out.println((nextPlayer)%game.getNumberOfPlayers());
 					}
 				}

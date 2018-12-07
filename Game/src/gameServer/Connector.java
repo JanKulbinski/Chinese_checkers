@@ -6,18 +6,15 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-
 import javax.swing.JTextArea;
-
 import gamepackage.Board;
-import gamepackage.BoardImage;
 
 public class Connector 
 {
-	JTextArea communicator;
+	private JTextArea communicator;
 	public BufferedReader in;
 	public PrintWriter out;
-	public Socket s;
+	private Socket s;
 	private Board board;
 	
 	public Connector() {
@@ -67,6 +64,7 @@ public class Connector
 	public void sendMessageToServer(String text) {
 		out.println(text);
 	}
+	
 	public void setTextOnCommunicator(String text) {
 		communicator.setText(text);
 	}

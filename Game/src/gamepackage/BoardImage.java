@@ -6,15 +6,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.util.ArrayList;
-
 import javax.swing.JPanel;
-
-import gameServer.Connector;
 
 public class BoardImage extends JPanel {
 
 	private Board board;
-	private Connector connector;
 	
 	public BoardImage() {
 		super();
@@ -29,10 +25,6 @@ public class BoardImage extends JPanel {
 	
 	public Board getBoard() {
 		return board;
-	}
-	
-	public void setConnector(Connector connector) {
-		this.connector = connector;
 	}
 	
 	@Override
@@ -52,7 +44,5 @@ public class BoardImage extends JPanel {
 	    		g2.fillOval((int)c.x,(int)c.y, (int)ColorCircle.width, (int)ColorCircle.height);
 	    	}
 	    }
-		
 	}
-	
 }

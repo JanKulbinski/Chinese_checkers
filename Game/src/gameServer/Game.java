@@ -94,6 +94,7 @@ class Game
 		endOfMoves = false;
 		jumpingCircle = null;
 	}
+	
 	public boolean checkWin(int aim[], Color playerColor) {
 		for(int i=0;i<aim.length;i++) {
 			if(!board.getCircles().get(aim[i]).getColor().equals(playerColor)) {		
@@ -102,6 +103,4 @@ class Game
 		}
 		return true;
 	}
-
-	
 }

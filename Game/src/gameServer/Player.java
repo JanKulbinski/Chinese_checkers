@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import states.StateController;
+
 class Player extends Thread
 {
 	Socket client;
@@ -15,8 +17,10 @@ class Player extends Thread
 	Game game;
 	private int playerId;
 	private Color playerColor;
+	private int destination[] = new int[10];
+	private boolean hasWon;
 	
-	Player(Socket socket, Game game, int playerId)
+	Player(Socket socket, Game game, int playerId, int numberOfPlayers)
 	{
 		this.game = game;
 		client=socket;
@@ -27,7 +31,9 @@ class Player extends Thread
 			System.out.println("Nie mozna nawiazac komunikacji");
 			System.exit(0);
 		}
-		
+		StateController s = new StateController();
+		s.setState(numberOfPlayers);
+		destination = s.getState().setDestinationForPlayer(playerId);
 		if(playerId == 0) playerColor = Color.RED;
 		else if(playerId == 1) playerColor = Color.GREEN;
 		else if(playerId == 2) playerColor = Color.BLUE;
@@ -42,6 +48,9 @@ class Player extends Thread
 	public void turn(int player) {
 		out.println("TURN");
 		out.println(Integer.toString(player));
+	}
+	public boolean hasWon() {
+		return hasWon;
 	}
 	
 	public void run() {
@@ -60,13 +69,20 @@ class Player extends Thread
 					game.reset();
 					for(int i=0;i<game.getPlayers().length;i++) {
 						game.getPlayers()[i].out.println("TURN");
-						game.getPlayers()[i].out.println((playerId+1)%game.getNumberOfPlayers());
+						int nextPlayer = (playerId+1)%game.getNumberOfPlayers();
+						while(game.getPlayers()[nextPlayer].hasWon) {
+							nextPlayer = (nextPlayer+1)%game.getNumberOfPlayers();
+						}
+						game.getPlayers()[i].out.println((nextPlayer)%game.getNumberOfPlayers());
 					}
 				}
 				
 				else {	
 				
-					if ( game.checkMoveProperiety(line,playerColor) ) {
+					if ( game.checkMoveProperiety(line,playerColor,destination) ) {
+							if (!hasWon && game.checkWin(destination,playerColor)) {
+								hasWon = true;
+							}
 							for(int i=0;i<game.getPlayers().length;i++) {
 								game.getPlayers()[i].out.println(line);
 							}

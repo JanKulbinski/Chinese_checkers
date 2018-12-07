@@ -46,8 +46,10 @@ class Player extends Thread
 	}
 	
 	public void turn(int player) {
-		out.println("TURN");
-		out.println(Integer.toString(player));
+		for(int i=0;i<game.getNumberOfPlayers();i++) {
+			game.getPlayers()[i].out.println("TURN");
+			game.getPlayers()[i].out.println(Integer.toString(player));
+		}
 	}
 	public boolean hasWon() {
 		return hasWon;
@@ -70,25 +72,36 @@ class Player extends Thread
 					int nextPlayer = (playerId+1)%game.getNumberOfPlayers();
 					while(game.getPlayers()[nextPlayer].hasWon) {
 						nextPlayer = (nextPlayer+1)%game.getNumberOfPlayers();
+						if(nextPlayer == playerId) {
+							for(int i=0;i<game.getPlayers().length;i++) {
+								nextPlayer = -1;
+							}
+							break;
+						}
 					}
 					for(int i=0;i<game.getPlayers().length;i++) {
 						game.getPlayers()[i].out.println("TURN");
-						game.getPlayers()[i].out.println((nextPlayer)%game.getNumberOfPlayers());
+						game.getPlayers()[i].out.println(nextPlayer);
 					}
 				}
 				
 				else {	
-				
 					if ( game.checkMoveProperiety(line,playerColor,destination) ) {
-							if (!hasWon && game.checkWin(destination,playerColor)) {
-								hasWon = true;
-							}
-							for(int i=0;i<game.getPlayers().length;i++) {
-								game.getPlayers()[i].out.println(line);
+						if (!hasWon && game.checkWin(destination,playerColor)) {
+							hasWon = true;
+						}
+						for(int i=0;i<game.getPlayers().length;i++) {
+							game.getPlayers()[i].out.println(line);
+							if(hasWon) {
+								game.getPlayers()[i].out.println(playerId);
+							} else {
+								game.getPlayers()[i].out.println("");
 							}
 						}
+							
+					}
 					else {
-							this.out.println("INCORRECT !");
+							this.out.println("INCORRECT");
 						}
 				}
 			}

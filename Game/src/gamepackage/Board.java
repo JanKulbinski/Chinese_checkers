@@ -3,6 +3,8 @@ package gamepackage;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import javax.swing.JTextArea;
+
 import gameServer.Connector;
 import states.StateController;
 
@@ -93,8 +95,9 @@ public class Board {
 		this.playerId = id;
 	}
 	
-	public void endTurn() {
+	public void endTurn(JTextArea communicator) {
 		if(myTurn) {
+			communicator.setText("");
 			this.myTurn = false;
 			connector.sendMessageToServer("END TURN");
 		}

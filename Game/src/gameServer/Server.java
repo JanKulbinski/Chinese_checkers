@@ -5,20 +5,17 @@ import java.net.ServerSocket;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
-import gamepackage.Client;
-
 public class Server 
 {
 	public static void main(String[] args) throws InterruptedException
 	{
-		
 		int numberOfPlayers = 0;
 		ServerSocket server;
 		Scanner in = new Scanner(System.in);
 		System.out.println("Podaj liczbe graczy:");
 		while(true)
 		{
-			numberOfPlayers = 6;
+			numberOfPlayers = 2;
 			break;
 			//zakomentowane tylko do testowania
 			/*String choice = in.nextLine();
@@ -44,7 +41,7 @@ public class Server
 			server=new ServerSocket(6666);
 			System.out.println("Serwer utworzony");
 			for(int i=0;i<numberOfPlayers;i++) {
-				players[i] = new Player(server.accept(),game,i);
+				players[i] = new Player(server.accept(),game,i,numberOfPlayers);
 				players[i].start();
 			}			
 		} catch (IOException e) {

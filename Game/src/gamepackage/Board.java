@@ -3,62 +3,37 @@ package gamepackage;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import javax.swing.JTextArea;
+
 import gameServer.Connector;
+import states.StateController;
 
 public class Board {
 	
 	public static int numberOfCircles = 121;
-	private int numberOfPlayers;
 	private ArrayList<ColorCircle> circles;
 	private Connector connector;
 	private BoardImage boardImage;
-	private Boolean myTurn; 
+	private boolean myTurn; 
 	private int playerId;
-	public static String[] playersColors = {"RED","GREEN","BLUE","CYAN","PINK","YELLOW"};
 	
 	public Board( int numberOfPlayers, BoardImage boardImage ) {
-		this.numberOfPlayers = numberOfPlayers;
 		this.circles = new ArrayList<ColorCircle> (numberOfCircles);
 		this.boardImage = boardImage;
 		myTurn = false;
 		
-		
 		createBoard();
 		if(numberOfPlayers != 2) {
-			int[] player = {0,1,2,3,4,5,6,7,8,9};
-			int[] player1 = {10,11,12,13,23,24,25,35,36,46};
-			int[] player2 = {19,20,21,22,32,33,34,44,45,55};
-			int[] player3 = {65,75,76,86,87,88,98,99,100,101};
-			int[] player4 = {74,84,85,95,96,97,107,108,109,110};
-			int[] player5 = {111,112,113,114,115,116,117,118,119,120};
-			
-			if(numberOfPlayers == 3) {
-				createPlayer(player3,Color.BLUE);
-				createPlayer(player4,Color.GREEN);
-				createPlayer(player5,Color.WHITE);
-			} else if(numberOfPlayers == 4) { 
-				createPlayer(player,Color.WHITE);
-				createPlayer(player1,Color.RED);
-				createPlayer(player2,Color.GREEN);
-				createPlayer(player4,Color.BLUE);
-				createPlayer(player3,Color.CYAN);
-				createPlayer(player5,Color.WHITE);
-			} else if(numberOfPlayers == 6) { 
-				createPlayer(player,Color.RED);
-				createPlayer(player2,Color.GREEN);
-				createPlayer(player4,Color.BLUE);
-				createPlayer(player5,Color.CYAN);
-				createPlayer(player3,Color.PINK);
-				createPlayer(player1,Color.YELLOW);
-				
-			}
+			StateController stateControler = new StateController();
+			stateControler.setState(numberOfPlayers);
+			stateControler.getState().setAreasForPlayers(this);
 		}
 	}
 	
 	/*
 	 * create by default Board for 2 players
 	 */
-	private void createBoard() { 
+	public void createBoard() { 
 		
 		float start = ColorCircle.width*10;
 		for( int i = 0; i < 4; i++) {
@@ -85,14 +60,14 @@ public class Board {
 	/*
 	 * create 1 raw of circles
 	 */
-	private void createRaw(float startX,float row,int circlesNumber,Color color) {
+	public void createRaw(float startX,float row,int circlesNumber,Color color) {
 		
 		for( int i = 0; i < circlesNumber; i++ ) {
 			circles.add(new ColorCircle(startX+ColorCircle.width*i,row*ColorCircle.height,color));
 		}
 	}
 	
-	private void createPlayer(int players[],Color color) {
+	public void createPlayer(int players[],Color color) {
 		for( int i=0; i < players.length; i++ ) {
 			circles.get(players[i]).setColor(color);
 		}
@@ -106,8 +81,7 @@ public class Board {
 	}
 	
 	public void opponentMove(String move) {
-		String[] words = move.split(" ");
-				
+		String[] words = move.split(" ");	
 		Color color = new Color(Integer.parseInt(words[2]),Integer.parseInt(words[3]),Integer.parseInt(words[4]));
 		getCircles().get(Integer.parseInt(words[0])).setColor(Color.WHITE);
 		getCircles().get(Integer.parseInt(words[1])).setColor(color);
@@ -121,9 +95,12 @@ public class Board {
 		this.playerId = id;
 	}
 	
-	public void endTurn() {
-		this.myTurn = false;
-		connector.sendMessageToServer("END TURN");
+	public void endTurn(JTextArea communicator) {
+		if(myTurn) {
+			communicator.setText("");
+			this.myTurn = false;
+			connector.sendMessageToServer("END TURN");
+		}
 	}
 	
 	public void myTurn() {
@@ -136,9 +113,5 @@ public class Board {
 
 	public int myId() {
 		return playerId;
-	}
-	
-	public String getColor(int id) {
-		return Board.playersColors[id];
 	}
 }

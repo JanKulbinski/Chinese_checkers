@@ -6,15 +6,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.util.ArrayList;
-
 import javax.swing.JPanel;
-
-import gameServer.Connector;
 
 public class BoardImage extends JPanel {
 
 	private Board board;
-	private Connector connector;
 	
 	public BoardImage() {
 		super();
@@ -31,10 +27,6 @@ public class BoardImage extends JPanel {
 		return board;
 	}
 	
-	public void setConnector(Connector connector) {
-		this.connector = connector;
-	}
-	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -44,12 +36,13 @@ public class BoardImage extends JPanel {
 	             RenderingHints.VALUE_ANTIALIAS_ON);
 	    
 	    g2.setRenderingHints(rh);
-	   
-		ArrayList<ColorCircle> circles = board.getCircles();
-		for ( ColorCircle c : circles ) {
-			g2.setColor(c.getColor());
-			g2.fillOval((int)c.x,(int)c.y, (int)ColorCircle.width, (int)ColorCircle.height);
-		}
+	    if(board != null)
+	    {
+	    	ArrayList<ColorCircle> circles = board.getCircles();
+	    	for ( ColorCircle c : circles ) {
+	    		g2.setColor(c.getColor());
+	    		g2.fillOval((int)c.x,(int)c.y, (int)ColorCircle.width, (int)ColorCircle.height);
+	    	}
+	    }
 	}
-	
 }

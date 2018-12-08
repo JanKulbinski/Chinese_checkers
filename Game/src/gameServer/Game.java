@@ -1,15 +1,13 @@
 package gameServer;
 
 import java.awt.Color;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
 import gamepackage.Board;
 import gamepackage.ColorCircle;
 
-class Game
+public class Game
 {	
 	private Player[] players;
 	private int numberOfPlayers;
@@ -37,19 +35,33 @@ class Game
 		players[n].turn(n);
 	}
 	
-	public boolean checkMoveProperiety(String line, Color playerColor) {
-	
+	public boolean checkMoveProperiety(String line, Color playerColor, int[] aim) {
+		
 		String[] words = line.split(" ");
 		Color color = new Color(Integer.parseInt(words[2]),Integer.parseInt(words[3]),Integer.parseInt(words[4]));
 		ArrayList<ColorCircle> circles = board.getCircles();
 		ColorCircle circleStart = circles.get(Integer.parseInt(words[0]));
 		ColorCircle circleEnd = circles.get(Integer.parseInt(words[1]));
-		if(!playerColor.equals(color) || endOfMoves) {
+		boolean fromDestinationArea = false;
+		boolean toDestinationArea = false;
+		for(int i=0;i<aim.length;i++) {
+			if(Integer.parseInt(words[0]) == aim[i]) {
+				fromDestinationArea = true;
+				for(int j=0;j<aim.length;j++) {
+					if(Integer.parseInt(words[1]) == aim[j]) {
+						toDestinationArea = true;
+					}
+				}
+			}
+		}
+		if(fromDestinationArea && !toDestinationArea){
 			return false;
 		}
-		else {
+		if(!playerColor.equals(color) || endOfMoves) {
+			return false;
+		} else {
 			double distance = Math.sqrt((Math.pow(circleStart.getCenterX()-circleEnd.getCenterX(), 2)) + Math.pow(circleStart.getCenterY()-circleEnd.getCenterY(), 2));
-			if(distance < 45) {
+			if(distance < 1.5*ColorCircle.height) {
 				if(jumpingCircle != null) {
 					return false;
 				}
@@ -57,7 +69,7 @@ class Game
 				circleStart.setColor(Color.WHITE);
 				circleEnd.setColor(color);
 				return true;
-			} else if ( distance > 75) {
+			} else if ( distance > 2.5*ColorCircle.height) {
 				return false;
 			} else {
 				if(jumpingCircle != null && jumpingCircle != circleStart) {
@@ -82,6 +94,13 @@ class Game
 		endOfMoves = false;
 		jumpingCircle = null;
 	}
-
 	
+	public boolean checkWin(int aim[], Color playerColor) {
+		for(int i=0;i<aim.length;i++) {
+			if(!board.getCircles().get(aim[i]).getColor().equals(playerColor)) {		
+					return false;
+			}
+		}
+		return true;
+	}
 }

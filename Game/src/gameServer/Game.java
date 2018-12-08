@@ -7,7 +7,7 @@ import java.util.Random;
 import gamepackage.Board;
 import gamepackage.ColorCircle;
 
-class Game
+public class Game
 {	
 	private Player[] players;
 	private int numberOfPlayers;

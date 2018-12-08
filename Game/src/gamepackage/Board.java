@@ -33,7 +33,7 @@ public class Board {
 	/*
 	 * create by default Board for 2 players
 	 */
-	private void createBoard() { 
+	public void createBoard() { 
 		
 		float start = ColorCircle.width*10;
 		for( int i = 0; i < 4; i++) {
@@ -60,7 +60,7 @@ public class Board {
 	/*
 	 * create 1 raw of circles
 	 */
-	private void createRaw(float startX,float row,int circlesNumber,Color color) {
+	public void createRaw(float startX,float row,int circlesNumber,Color color) {
 		
 		for( int i = 0; i < circlesNumber; i++ ) {
 			circles.add(new ColorCircle(startX+ColorCircle.width*i,row*ColorCircle.height,color));

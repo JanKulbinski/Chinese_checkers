@@ -9,7 +9,7 @@ import java.net.Socket;
 
 import states.StateController;
 
-class Player extends Thread
+public class Player extends Thread
 {
 	private Socket client;
 	private PrintWriter out;
@@ -20,7 +20,7 @@ class Player extends Thread
 	private int destination[] = new int[10];
 	private boolean hasWon;
 	
-	Player(Socket socket, Game game, int playerId, int numberOfPlayers)
+	public Player(Socket socket, Game game, int playerId, int numberOfPlayers)
 	{
 		this.game = game;
 		client=socket;

@@ -15,7 +15,7 @@ public class BoardImage extends JPanel {
 	public BoardImage() {
 		super();
 		setPreferredSize(new Dimension(400,400));
-		setBackground(new Color(255,204,153));
+		setBackground(new Color(77,77,77));
 	}
 	
 	public void setBoard(Board board) {

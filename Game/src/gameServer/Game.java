@@ -36,7 +36,7 @@ public class Game
 	}
 	
 	public boolean checkMoveProperiety(String line, Color playerColor, int[] aim) {
-		
+	
 		String[] words = line.split(" ");
 		Color color = new Color(Integer.parseInt(words[2]),Integer.parseInt(words[3]),Integer.parseInt(words[4]));
 		ArrayList<ColorCircle> circles = board.getCircles();

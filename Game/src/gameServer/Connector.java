@@ -48,7 +48,6 @@ public class Connector
 				}
 				else if(line.equals("TURN") ) {
 						int id = Integer.parseInt(in.readLine());
-						
 						if(id == board.myId()) {
 							currentPlayer.setText("It's your turn");
 							board.myTurn();

@@ -11,18 +11,19 @@ import states.StateController;
 
 public class Player extends Thread
 {
-	private Socket client;
-	private PrintWriter out;
 	private BufferedReader in;
-	private Game game;
-	private int playerId;
-	private Color playerColor;
-	private int destination[] = new int[10];
-	private boolean hasWon;
+	protected Socket client;
+	protected PrintWriter out;
+	protected Game game;
+	protected int playerId;
+	protected Color playerColor;
+	protected int destination[] = new int[10];
+	protected boolean hasWon;
 	
 	public Player(Socket socket, Game game, int playerId, int numberOfPlayers)
 	{
 		this.game = game;
+		if(socket != null) {
 		client=socket;
 		try {
 			out = new PrintWriter(client.getOutputStream(), true);
@@ -30,6 +31,7 @@ public class Player extends Thread
 		} catch (IOException e) {
 			System.out.println("Nie mozna nawiazac komunikacji");
 			System.exit(0);
+		}
 		}
 		StateController s = new StateController();
 		s.setState(numberOfPlayers);
@@ -47,8 +49,7 @@ public class Player extends Thread
 	
 	public void turn(int player) {
 		for(int i=0;i<game.getNumberOfPlayers();i++) {
-			game.getPlayers()[i].out.println("TURN");
-			game.getPlayers()[i].out.println(Integer.toString(player));
+			game.getPlayers()[i].sendTurn(player);
 		}
 	}
 	public boolean hasWon() {
@@ -80,8 +81,7 @@ public class Player extends Thread
 						}
 					}
 					for(int i=0;i<game.getPlayers().length;i++) {
-						game.getPlayers()[i].out.println("TURN");
-						game.getPlayers()[i].out.println(nextPlayer);
+						game.getPlayers()[i].sendTurn(nextPlayer);
 					}
 				}
 				
@@ -91,11 +91,11 @@ public class Player extends Thread
 							hasWon = true;
 						}
 						for(int i=0;i<game.getPlayers().length;i++) {
-							game.getPlayers()[i].out.println(line);
+							game.getPlayers()[i].send(line);
 							if(hasWon) {
-								game.getPlayers()[i].out.println(playerId);
+								game.getPlayers()[i].send(Integer.toString(playerId));
 							} else {
-								game.getPlayers()[i].out.println("");
+								game.getPlayers()[i].send("");
 							}
 						}
 							
@@ -109,5 +109,14 @@ public class Player extends Thread
 			System.out.append("Nie mozna przeczytac lini");
 			System.exit(0);
 		}
+	}
+	
+	public void sendTurn(int player) {
+		out.println("TURN");
+		out.println(player);
+	}
+	
+	public void send(String text) {
+		out.println(text);
 	}
 }

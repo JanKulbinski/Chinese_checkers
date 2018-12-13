@@ -28,6 +28,9 @@ public class Game
 	public int getNumberOfPlayers() {
 		return numberOfPlayers;
 	}
+	public Board getBoard() {
+		return board;
+	}
 	
 	public void whoBeginsGame() {
 		Random rand = new Random();
@@ -57,6 +60,10 @@ public class Game
 		if(fromDestinationArea && !toDestinationArea){
 			return false;
 		}
+		
+		if(!circleEnd.getColor().equals(Color.WHITE))
+			return false;
+		
 		if(!playerColor.equals(color) || endOfMoves) {
 			return false;
 		} else {

@@ -13,7 +13,7 @@ public class GameTest {
 	@Test
 	public void singeleMoveTest() {
 		Game game = new Game(2);
-		String line = "5 9 255 0 0 0";
+		String line = "6 14 255 0 0 0";
 		assertTrue(game.checkMoveProperiety(line, Color.RED, State.player5));
 	}
 	@Test

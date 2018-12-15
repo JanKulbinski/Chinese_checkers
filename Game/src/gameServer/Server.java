@@ -41,11 +41,14 @@ public class Server
 			}	
 		}	
 		if(numberOfPlayers != 6) {
-			System.out.println("Podaj liczbe botów:");
+			System.out.println("Podaj liczbe botow:");
 			while(true)
 			{
 				String choice = in.nextLine();
-				if(choice.equals("1")) {
+				if(choice.equals("0")) {
+					numberOfBots = 0;
+					break;
+				} else if(choice.equals("1")) {
 					numberOfBots = 1;
 					break;
 				} else if(choice.equals("2")) {
@@ -66,7 +69,7 @@ public class Server
 				} else {
 					System.out.println("Bledny wybor");
 				}	
-		}
+			}
 			sum = numberOfPlayers+numberOfBots;
 			if(!(sum==2 ||sum==3 ||sum==4 ||sum==6)) {
 				System.out.println("Bledny wybor");
@@ -75,6 +78,7 @@ public class Server
 			}
 				
 		}
+		sum = numberOfPlayers+numberOfBots;
 		Game game = new Game(sum);
 		Player[] players = new Player[sum];
 		try {
@@ -88,7 +92,7 @@ public class Server
 			for(int i=numberOfPlayers;i<sum;i++) { 
 				players[i] = new Bot(game,i,sum);
 				players[i].start();
-			}	
+			}
 		} catch (IOException e) {
 			System.out.println("Nie mozna utworzyc serwera");
 			System.exit(0);

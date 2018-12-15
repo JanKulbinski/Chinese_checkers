@@ -1,17 +1,10 @@
 package gameServer;
 
 import java.awt.Color;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
-
 import gamepackage.Board;
 import gamepackage.ColorCircle;
-import states.StateController;
 
 
 public class Bot extends Player {
@@ -32,7 +25,7 @@ public class Bot extends Player {
 	}
 
 	public void run() {
-			
+
 		int start,end,aim,reachedNumber;	
 		double distance,max,currentDistanceToAim,distanceToAim;
 		String line;

@@ -32,4 +32,6 @@ public class BoardTests {
 		board.setPlayerId(1);
 		assertEquals(board.myId(),1);	
 	}
+	
+	
 }

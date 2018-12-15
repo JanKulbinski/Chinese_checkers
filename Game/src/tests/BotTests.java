@@ -2,11 +2,7 @@ package tests;
 
 import static org.junit.Assert.*;
 
-import java.util.concurrent.TimeUnit;
-
-import org.junit.Before;
-import org.junit.Test;
-
+import org.junit.Ignore;
 import gameServer.Bot;
 import gameServer.Game;
 import gameServer.Player;
@@ -14,7 +10,7 @@ import gamepackage.Board;
 
 public class BotTests {
 
-	@Test
+	@Ignore
 	public void test() throws InterruptedException {
 		Game game = new Game(2);
 		Board initialBoard = game.getBoard();

@@ -80,7 +80,7 @@ public class Game
 				return false;
 			} else {
 				if(jumpingCircle != null && jumpingCircle != circleStart) {
-					return false;
+						return false;
 				}
 				double x = (circleStart.getCenterX()+circleEnd.getCenterX())/2;
 				double y = (circleStart.getCenterY()+circleEnd.getCenterY())/2;

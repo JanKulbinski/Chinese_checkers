@@ -35,6 +35,9 @@ public class Game
 	public void whoBeginsGame() {
 		Random rand = new Random();
 		int n = rand.nextInt(numberOfPlayers);
+		for(int i=0;i<this.numberOfPlayers;i++) {
+			players[i].send("CONNECTED");
+		}
 		players[n].turn(n);
 	}
 	

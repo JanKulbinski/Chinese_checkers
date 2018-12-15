@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+
+import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 import gamepackage.Board;
 
@@ -14,6 +16,7 @@ public class Connector
 	private JTextArea movesInfo;
 	private JTextArea currentPlayer;
 	private JTextArea places;
+	private JProgressBar progressBar;
 	public BufferedReader in;
 	public PrintWriter out;
 	private Socket s;
@@ -30,11 +33,12 @@ public class Connector
 			e.printStackTrace();
 		}
 	}
-	public void setBoardImage(Board board, JTextArea movesInfo, JTextArea currentPlayer, JTextArea places) {
+	public void setBoardImage(Board board, JTextArea movesInfo, JTextArea currentPlayer, JTextArea places, JProgressBar progressbar) {
 		this.places = places;
 		this.board = board;
 		this.movesInfo = movesInfo;
 		this.currentPlayer = currentPlayer;
+		this.progressBar = progressbar;
 	}
 	public void play() {
 		String line;
@@ -45,6 +49,9 @@ public class Connector
 				if(line.equals("INCORRECT")) {
 					movesInfo.setText("Wrong move.");
 				
+				}
+				else if(line.equals("CONNECTED")) {
+					this.progressBar.setVisible(false);
 				}
 				else if(line.equals("TURN") ) {
 						int id = Integer.parseInt(in.readLine());

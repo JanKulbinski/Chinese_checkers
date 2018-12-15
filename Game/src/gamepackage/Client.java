@@ -12,6 +12,7 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 
 import gameServer.Connector;
@@ -27,6 +28,7 @@ public class Client {
 	private BoardImage boardImage;
 	private JButton endTurn;
 	private Board board;
+	private JProgressBar progressBar;
 	
 	public Client() {
 		
@@ -54,7 +56,7 @@ public class Client {
 		
 		places.setFont(new Font("Segoe Script",Font.BOLD,15));
 		places.setEditable(false);
-		places.setPreferredSize(new Dimension(140,400));
+		places.setPreferredSize(new Dimension(140,300));
 		places.setText("Places:");
 		places.setOpaque(false);
 		
@@ -63,10 +65,18 @@ public class Client {
 		clientWindow.getContentPane().setBackground(new Color(255,153,51));		
 		clientWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		backgroundPanel.setPreferredSize(new Dimension(150,600));
+		progressBar=new JProgressBar();
+		progressBar.setIndeterminate(true);
+		progressBar.setStringPainted(true);
+		progressBar.setPreferredSize(new Dimension(150,30));
+		progressBar.setForeground(Color.BLACK);
+		progressBar.setString("Waiting for all players");
+		
+		backgroundPanel.setPreferredSize(new Dimension(150,500));
 		backgroundPanel.add(endTurn);	
 		backgroundPanel.add(movesInfo);
 		backgroundPanel.add(currentPlayer);
+		backgroundPanel.add(progressBar);
 		backgroundPanel.add(places);
 		
 		clientWindow.add(backgroundPanel,BorderLayout.EAST);
@@ -122,7 +132,7 @@ public class Client {
 				client.board.setConnector(connector);
 				client.board.setPlayerId(id);
 				
-				connector.setBoardImage(client.board,client.movesInfo,client.currentPlayer, client.places);
+				connector.setBoardImage(client.board,client.movesInfo,client.currentPlayer, client.places, client.progressBar);
 				client.boardImage.setBoard(client.board);
 				client.setMyColor(color);			
 				

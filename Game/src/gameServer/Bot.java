@@ -17,6 +17,10 @@ public class Bot extends Player {
 		turn = false;
 		rand = new Random();
 	}
+	
+	public boolean isBot() {
+		return true;
+	}
 		
 	public void sendTurn(int id) {
 		if (id == playerId) {

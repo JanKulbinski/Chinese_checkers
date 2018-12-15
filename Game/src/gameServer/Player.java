@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+
+import gamepackage.Board;
 import states.StateController;
 
 public class Player extends Thread
@@ -18,6 +20,7 @@ public class Player extends Thread
 	protected Color playerColor;
 	protected int destination[] = new int[10];
 	protected boolean hasWon;
+	protected boolean myTurn;
 	
 	public Player(Socket socket, Game game, int playerId, int numberOfPlayers)
 	{
@@ -81,6 +84,7 @@ public class Player extends Thread
 					}
 					for(int i=0;i<game.getPlayers().length;i++) {
 						game.getPlayers()[i].sendTurn(nextPlayer);
+						this.myTurn = false;
 					}
 				}
 				
@@ -105,14 +109,50 @@ public class Player extends Thread
 				}
 			}
 		} catch (IOException e) {
-			System.out.append("Nie mozna przeczytac lini");
-			System.exit(0);
+			this.hasWon = true;
+			for(int i=0;i<Board.numberOfCircles;i++) {
+				if(game.getBoard().getCircles().get(i).getColor().equals(this.playerColor)) {
+					String l = i+" "+i+" "+"255 255 255";
+					game.getBoard().getCircles().get(i).setColor(Color.WHITE);
+					for(int j=0;j<game.getNumberOfPlayers();j++) {
+						if(!game.getPlayers()[j].isBot()) {
+							game.getPlayers()[j].out.println(l);
+							game.getPlayers()[j].out.println("");
+						}
+					}
+				}
+			}
+			if(myTurn)
+			{
+				int nextPlayer = (playerId+1)%game.getNumberOfPlayers();
+				while(game.getPlayers()[nextPlayer].hasWon) {
+					nextPlayer = (nextPlayer+1)%game.getNumberOfPlayers();
+					if(nextPlayer == playerId) {
+						for(int i=0;i<game.getPlayers().length;i++) {
+							nextPlayer = -1;
+						}
+						break;
+					}
+				}
+				for(int i=0;i<game.getPlayers().length;i++) {
+					game.getPlayers()[i].sendTurn(nextPlayer);
+				}
+			}
 		}
 	}
-	
+	public boolean isBot() {
+		return false;
+	}
 	public void sendTurn(int player) {
 		out.println("TURN");
 		out.println(player);
+		if(player == playerId) {
+			myTurn = true;
+		}
+	}
+	
+	public boolean myTurn() {
+		return myTurn;
 	}
 	
 	public void send(String text) {

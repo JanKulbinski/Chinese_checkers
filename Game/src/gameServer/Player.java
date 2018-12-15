@@ -114,12 +114,17 @@ public class Player extends Thread
 				if(game.getBoard().getCircles().get(i).getColor().equals(this.playerColor)) {
 					String l = i+" "+i+" "+"255 255 255";
 					game.getBoard().getCircles().get(i).setColor(Color.WHITE);
-					for(int j=0;j<game.getNumberOfPlayers();j++) {
-						if(!game.getPlayers()[j].isBot()) {
-							game.getPlayers()[j].out.println(l);
-							game.getPlayers()[j].out.println("");
+					try {
+						for(int j=0;j<game.getNumberOfPlayers();j++) {
+							if(!game.getPlayers()[j].isBot()) {
+								game.getPlayers()[j].out.println(l);
+								game.getPlayers()[j].out.println("");
+							}
 						}
+					} catch(NullPointerException err) {
+						System.exit(0);
 					}
+					
 				}
 			}
 			if(myTurn)

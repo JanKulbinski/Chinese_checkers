@@ -17,26 +17,11 @@ public class Server
 		System.out.println("Podaj liczbe graczy:");
 		while(true)
 		{
-			String choice = in.nextLine();
-			if(choice.equals("2")) {
-				numberOfPlayers = 2;
+			numberOfPlayers = in.nextInt();
+			if(numberOfPlayers > 0 && numberOfPlayers <= 6) {
 				break;
-			} else if(choice.equals("1")) {
-				numberOfPlayers = 1;
-				break;	
-			} else if(choice.equals("3")) {
-				numberOfPlayers = 3;
-				break;
-			} else if(choice.equals("4")) {
-				numberOfPlayers = 4;
-				break;
-			} else if(choice.equals("5")) {
-				numberOfPlayers = 5;
-				break;
-			} else if(choice.equals("6")) {
-				numberOfPlayers = 6;
-				break;
-			} else {
+			}
+			else {
 				System.out.println("Bledny wybor");
 			}	
 		}	
@@ -44,35 +29,17 @@ public class Server
 			System.out.println("Podaj liczbe botow:");
 			while(true)
 			{
-				String choice = in.nextLine();
-				if(choice.equals("0")) {
-					numberOfBots = 0;
-					break;
-				} else if(choice.equals("1")) {
-					numberOfBots = 1;
-					break;
-				} else if(choice.equals("2")) {
-					numberOfBots = 2;
-					break;
-				} else if(choice.equals("3")) {
-					numberOfBots = 3;
-					break;
-				} else if(choice.equals("4")) {
-					numberOfBots = 4;
-					break;
-				} else if(choice.equals("5")) {
-					numberOfBots = 5;
-					break;
-				} else if(choice.equals("6")) {
-					numberOfBots = 6;
-					break;
-				} else {
+				numberOfBots = in.nextInt();
+				if(numberOfBots < 0 || numberOfBots > 6) {
 					System.out.println("Bledny wybor");
-				}	
+				}
+				else {
+					break;
+				}
 			}
 			sum = numberOfPlayers+numberOfBots;
 			if(!(sum==2 ||sum==3 ||sum==4 ||sum==6)) {
-				System.out.println("Bledny wybor");
+				System.out.println("Bledny wybor3");
 				in.close();
 				return;
 			}

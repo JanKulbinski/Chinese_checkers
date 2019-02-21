@@ -5,7 +5,7 @@ JAVA Client - Server application. Chinese checkers game.
 Rules of the game chinese checkers https://en.wikipedia.org/wiki/Chinese_checkers
 
 
-The project operates on the basis of the client server architecture. The player, using the client application, can connect to the server and join the game. The server verifies the correctness of movements and mediates in communication. Bots-players controlled by the server can also be added to the game. 
+The project operates on the basis of the client server architecture. In the game can participate from 1 to 6 players. Each player, using the client application, can connect to server and join the game. The server verifies the correctness of movements and mediates in communication. Bots-players controlled by the server can also be added to the game. 
 
 
 Instruction :
